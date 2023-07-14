@@ -3,8 +3,8 @@ import {InputService} from "./input.service";
 export class InputHandler {
 
     private inputService: InputService;
-    private onModelChange: Function;
-    private onModelTouched: Function;
+    private onModelChange!: Function;
+    private onModelTouched!: Function;
 
     constructor(htmlInputElement: HTMLInputElement, options: any) {
         this.inputService = new InputService(htmlInputElement, options);
@@ -42,7 +42,7 @@ export class InputHandler {
 
                 // Then backspace it.
                 this.inputService.removeNumber(8);
-                this.onModelChange(this.inputService.value);  
+                this.onModelChange(this.inputService.value);
             }, 0);
         }
 
@@ -141,7 +141,8 @@ export class InputHandler {
         this.onModelTouched = callbackFunction;
     }
 
-    setValue(value: number): void {
+    // TODO : value: 'any' should be 'number | null' but then all the class should be updated
+    setValue(value: any): void {
         this.inputService.value = value;
     }
 

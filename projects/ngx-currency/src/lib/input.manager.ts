@@ -1,6 +1,6 @@
 export class InputManager {
 
-    private _storedRawValue: string;
+    private _storedRawValue!: string;
 
     constructor(private htmlInputElement: any) {
     }

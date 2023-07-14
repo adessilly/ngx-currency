@@ -45,7 +45,7 @@ export class InputService {
 
         if (!this.rawValue) {
             this.rawValue = this.applyMask(false, keyChar);
-            let selectionStart:number = undefined;
+            let selectionStart: number | undefined = undefined;
             if (inputMode === CurrencyMaskInputMode.NATURAL && precision > 0) {
                 selectionStart = this.rawValue.indexOf(decimal);
                 if (isDecimalChar) {
@@ -119,19 +119,19 @@ export class InputService {
         let isNegative = rawValue.indexOf("-") > -1;
 
         // Ensure max is at least as large as min.
-        max = (this.isNullOrUndefined(max) || this.isNullOrUndefined(min)) ? max : Math.max(max, min);
+        max = (this.isNullOrUndefined(max) || this.isNullOrUndefined(min)) ? max : Math.max(max as any, min as any);
 
         // Ensure precision number works well with more than 2 digits
         // 23 / 100... 233 / 1000 and so on
         const divideBy = Number('1'.padEnd(precision + 1, '0'));
-        
+
         // Restrict to the min and max values.
         let newValue = integerValue + (decimalValue / divideBy);
 
         newValue = isNegative ? -newValue : newValue;
-        if (!this.isNullOrUndefined(max) && newValue > max) {
+        if (!this.isNullOrUndefined(max) && newValue > (max as any)) {
             return this.applyMask(true, max + '');
-        } else if (!this.isNullOrUndefined(min) && newValue < min) {
+        } else if (!this.isNullOrUndefined(min) && newValue < (min as any)) {
             return this.applyMask(true, min + '');
         }
 
@@ -172,7 +172,7 @@ export class InputService {
 
     clearMask(rawValue: string): number {
         if (this.isNullable() && rawValue === "")
-            return null;
+            return (null as any);
 
         let value = (rawValue || "0").replace(this.options.prefix, "").replace(this.options.suffix, "");
 
@@ -207,7 +207,7 @@ export class InputService {
         let {decimal, thousands, prefix, suffix, inputMode} = this.options;
 
         if (this.isNullable() && this.value == 0) {
-            this.rawValue = null;
+            this.rawValue = (null as any);
             return;
         }
 
@@ -232,10 +232,10 @@ export class InputService {
 
         let shiftSelection = 0;
         let insertChars = '';
-        
+
         const isCursorInDecimals = decimalIndex < selectionEnd;
         const isCursorImmediatelyAfterDecimalPoint = decimalIndex + 1 === selectionEnd;
-        
+
         if (selectionEnd === selectionStart) {
             if (keyCode == 8) {
                 if (selectionStart <= prefix.length) {
